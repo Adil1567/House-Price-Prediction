@@ -1,14 +1,8 @@
 ![](BHP_website.PNG)
 
-This data science project series walks through step by step process of how to build a real estate price prediction website. We will first build a model using sklearn and linear regression using banglore home prices dataset from kaggle.com. Second step would be to write a python flask server that uses the saved model to serve http requests. Third component is the website built in html, css and javascript that allows user to enter home square ft area, bedrooms etc and it will call python flask server to retrieve the predicted price. During model building we will cover almost all data science concepts such as data load and cleaning, outlier detection and removal, feature engineering, dimensionality reduction, gridsearchcv for hyperparameter tunning, k fold cross validation etc. Technology and tools wise this project covers,
+In this data science project, I built a real estate price prediction website step-by-step. Initially, I developed a predictive model utilizing sklearn and linear regression based on a dataset of Bangalore home prices from Kaggle. Subsequently, I wrote a Python Flask server to manage HTTP requests using the model to provide price predictions. The user interface was crafted using HTML, CSS, and JavaScript, allowing users to input details such as home area and bedroom count to obtain price estimates. The project incorporated various data science methodologies, including data loading, cleaning, outlier removal, feature engineering, dimensionality reduction, hyperparameter tuning with GridSearchCV, and k-fold cross-validation. Tools used included Python, Numpy, Pandas, Matplotlib, Jupyter Notebook, Visual Studio Code, and PyCharm.
 
-1. Python
-2. Numpy and Pandas for data cleaning
-3. Matplotlib for data visualization
-4. Sklearn for model building
-5. Jupyter notebook, visual studio code and pycharm as IDE
-6. Python flask for http server
-7. HTML/CSS/Javascript for UI
+Deployment steps involved setting up an AWS EC2 instance, configuring security groups for HTTP traffic, and installing and setting up Nginx to serve the application and route API calls. Files were transferred to the EC2 instance using WinSCP. Configuration files for Nginx were created and symlinked to direct traffic appropriately. The Flask server was initiated after installing necessary Python packages, making the website accessible and functional online at my specified cloud URL.
 
 # Deploy this app to cloud (AWS EC2)
 
@@ -34,15 +28,15 @@ ssh -i "C:\Users\Viral\.ssh\Banglore.pem" ubuntu@ec2-3-133-88-210.us-east-2.comp
    sudo service nginx restart
    ```
    4. Now when you load cloud url in browser you will see a message saying "welcome to nginx" This means your nginx is setup and running.
-4. Now you need to copy all your code to EC2 instance. You can do this either using git or copy files using winscp. We will use winscp. You can download winscp from here: https://winscp.net/eng/download.php
-5. Once you connect to EC2 instance from winscp (instruction in a youtube video), you can now copy all code files into /home/ubuntu/ folder. The full path of your root folder is now: **/home/ubuntu/BangloreHomePrices**
+4. Now you need to copy all your code to EC2 instance. You can do this either using git or copy files using winscp. I used winscp. You can download winscp from here: https://winscp.net/eng/download.php
+5. Once you connect to EC2 instance from winscp (instruction in a youtube video), you can now copy all code files into /home/ubuntu/ folder. The full path of your root folder is now: **/home/ec2-user/House_Price_Prediction_Bengaluru**
 6.  After copying code on EC2 server now we can point nginx to load our property website by default. For below steps,
     1. Create this file /etc/nginx/sites-available/bhp.conf. The file content looks like this,
     ```
     server {
 	    listen 80;
             server_name bhp;
-            root /home/ubuntu/BangloreHomePrices/client;
+            root /home/ec2-user/House_Price_Prediction_Bengaluru/client;
             index app.html;
             location /api/ {
                  rewrite ^/api(.*) $1 break;
